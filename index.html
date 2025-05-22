@@ -15,40 +15,41 @@
             padding: 15px; /* Etwas Innenabstand zum Rand des Embed-Fensters */
             box-sizing: border-box; /* Stellt sicher, dass Padding die Gesamtgröße nicht unvorhersehbar erhöht */
             text-align: center; /* Zentriert den Text innerhalb des quote-containers */
-            background-color: #f7f7f7; /* Heller Hintergrund für das Widget */
+            background-color: transparent; /* Hintergrund durchsichtig machen */
         }
         #quote-container {
             padding: 25px;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            background-color: #ffffff; /* Weißer Hintergrund für die Zitat-Box */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Leichter Schatten */
+            /* border: 1px solid #e0e0e0; */ /* Rahmen entfernt */
+            border-radius: 10px; /* Kann beibehalten oder entfernt werden, je nach Wunsch */
+            background-color: transparent; /* Hintergrund der Zitat-Box durchsichtig machen */
+            /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */ /* Schatten entfernt */
             max-width: 100%; /* Nimmt maximal die verfügbare Breite im Embed-Fenster ein */
         }
         #quote-text {
-            font-size: 1.2em; /* Etwas größere Schrift für das Zitat */
+            font-size: 1.2em;
             margin-bottom: 12px;
-            color: #333;
+            color: #cccccc; /* Hellgraue Schriftfarbe */
         }
         #quote-author {
             font-size: 1em;
             font-style: italic;
-            color: #555;
+            color: #aaaaaa; /* Etwas dunkleres Hellgrau für den Autor */
         }
         /* Optional: Button zum Neuladen des Zitats */
         #reload-button {
             margin-top: 15px;
             padding: 8px 15px;
             font-size: 0.9em;
-            color: #fff;
-            background-color: #007aff; /* Blauer Button */
-            border: none;
+            color: #aaaaaa; /* Hellgraue Schriftfarbe für Button */
+            background-color: transparent; /* Transparenter Hintergrund für Button */
+            border: 1px solid #aaaaaa; /* Hellgrauer Rahmen für Button */
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, color 0.2s;
         }
         #reload-button:hover {
-            background-color: #0056b3;
+            background-color: rgba(204, 204, 204, 0.1); /* Sehr dezenter hellgrauer Hintergrund beim Hovern */
+            color: #cccccc; /* Etwas hellere Schrift beim Hovern */
         }
     </style>
 </head>
