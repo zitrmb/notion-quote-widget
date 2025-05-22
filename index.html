@@ -10,46 +10,50 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Stellt sicher, dass der Inhalt auch bei wenig Text zentriert ist, wenn die Seite alleine steht */
-            margin: 0; /* Entfernt Standard-Browser-Abstände */
-            padding: 15px; /* Etwas Innenabstand zum Rand des Embed-Fensters */
-            box-sizing: border-box; /* Stellt sicher, dass Padding die Gesamtgröße nicht unvorhersehbar erhöht */
-            text-align: center; /* Zentriert den Text innerhalb des quote-containers */
-            background-color: transparent; /* Hintergrund durchsichtig machen */
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            background-color: transparent;
         }
         #quote-container {
             padding: 25px;
-            /* border: 1px solid #e0e0e0; */ /* Rahmen entfernt */
-            border-radius: 10px; /* Kann beibehalten oder entfernt werden, je nach Wunsch */
-            background-color: transparent; /* Hintergrund der Zitat-Box durchsichtig machen */
-            /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */ /* Schatten entfernt */
-            max-width: 100%; /* Nimmt maximal die verfügbare Breite im Embed-Fenster ein */
+            border-radius: 10px;
+            background-color: transparent;
+            max-width: 100%;
         }
         #quote-text {
-            font-size: 1.2em;
+            /* font-size: 1.2em; */ /* Alt */
+            font-size: clamp(1.1em, 2.8vw, 1.4em); /* Neu: min, preferred, max */
             margin-bottom: 12px;
-            color: #cccccc; /* Hellgraue Schriftfarbe */
+            color: #cccccc;
+            overflow-wrap: break-word; /* Stellt sicher, dass sehr lange Wörter umbrechen */
+            word-wrap: break-word; /* Ältere Browser */
         }
         #quote-author {
-            font-size: 1em;
+            /* font-size: 1em; */ /* Alt */
+            font-size: clamp(0.9em, 2.2vw, 1.1em); /* Neu: min, preferred, max */
             font-style: italic;
-            color: #aaaaaa; /* Etwas dunkleres Hellgrau für den Autor */
+            color: #aaaaaa;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
-        /* Optional: Button zum Neuladen des Zitats */
         #reload-button {
             margin-top: 15px;
             padding: 8px 15px;
-            font-size: 0.9em;
-            color: #aaaaaa; /* Hellgraue Schriftfarbe für Button */
-            background-color: transparent; /* Transparenter Hintergrund für Button */
-            border: 1px solid #aaaaaa; /* Hellgrauer Rahmen für Button */
+            /* font-size: 0.9em; */ /* Alt */
+            font-size: clamp(0.8em, 2vw, 1em); /* Neu: min, preferred, max */
+            color: #aaaaaa;
+            background-color: transparent;
+            border: 1px solid #aaaaaa;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.2s, color 0.2s;
         }
         #reload-button:hover {
-            background-color: rgba(204, 204, 204, 0.1); /* Sehr dezenter hellgrauer Hintergrund beim Hovern */
-            color: #cccccc; /* Etwas hellere Schrift beim Hovern */
+            background-color: rgba(204, 204, 204, 0.1);
+            color: #cccccc;
         }
     </style>
 </head>
@@ -67,8 +71,6 @@
             { text: "Phantasie ist wichtiger als Wissen, denn Wissen ist begrenzt.", author: "Albert Einstein" },
             // HIER IHRE EIGENEN ZITATE HINZUFÜGEN:
             // { text: "Ihr Zitat hier.", author: "Ihr Name oder Quelle" },
-            // { text: "Noch ein tolles Zitat.", author: "Unbekannt" },
-            // { text: "Ein drittes Beispiel.", author: "Max Mustermann" }
         ];
 
         function getRandomQuote() {
@@ -85,11 +87,9 @@
             if (quote.author) {
                 document.getElementById('quote-author').textContent = "- " + quote.author;
             } else {
-                document.getElementById('quote-author').textContent = ""; // Autor ausblenden, wenn nicht vorhanden
+                document.getElementById('quote-author').textContent = "";
             }
         }
-
-        // Zitat beim Laden der Seite anzeigen
         window.onload = displayQuote;
     </script>
 </body>
