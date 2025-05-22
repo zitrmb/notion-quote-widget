@@ -8,35 +8,37 @@
         html {
             margin: 0;
             padding: 0;
-            height: 100%; /* Stellt sicher, dass das html-Element die volle Höhe des iframes einnimmt */
+            height: auto; /* Erlaubt dem HTML-Element, sich an den Inhalt anzupassen */
             overflow: hidden; /* Verhindert Scrollbalken auf dem html-Element */
             box-sizing: border-box;
+            background-color: transparent; /* Stellt sicher, dass auch der HTML-Hintergrund transparent ist */
         }
         *, *::before, *::after { /* Sorgt für ein konsistentes Box-Modell für alle Elemente */
             box-sizing: inherit;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%; /* Body nimmt die volle Höhe des html-Elements ein */
-            margin: 0; /* Entfernt Standard-Body-Margins */
-            padding: 15px; /* Innenabstand des Body bleibt, ist aber im 100% height enthalten */
-            text-align: center;
+            margin: 0;
+            padding: 0; /* Kein Padding direkt am Body, um die Höhe minimal zu halten */
+            height: auto; /* Erlaubt dem Body, sich an den Inhalt anzupassen */
+            text-align: center; /* Zentriert den quote-container und den Text darin */
             background-color: transparent;
             overflow: hidden; /* Verhindert Scrollbalken auf dem Body-Element */
+            position: relative; /* Notwendig für die absolute Positionierung des Icons */
         }
         #quote-container {
-            padding: 25px;
-            border-radius: 10px; /* Kann beibehalten werden */
+            padding: 15px; /* Innenabstand für den Text, definiert die Widget-Ränder */
+            /* padding-bottom: 15px; Stellt sicher, dass auch unten ein Abstand ist. */
+            /* Bei sehr langen Texten könnte das Icon den Text hier leicht überlappen, wenn es größer ist als der Padding-Bereich. */
+            border-radius: 10px;
             background-color: transparent;
             max-width: 100%;
-            /* Höhe wird automatisch durch Inhalt bestimmt */
+            /* Höhe wird automatisch durch Inhalt bestimmt und sollte minimal sein */
         }
         #quote-text {
             font-size: clamp(1.1em, 2.8vw, 1.4em);
-            margin-bottom: 12px;
+            margin-top: 0; /* Kein oberer Margin */
+            margin-bottom: 8px; /* Kleiner Abstand zum Autor */
             color: #cccccc;
             overflow-wrap: break-word;
             word-wrap: break-word;
@@ -45,22 +47,24 @@
             font-size: clamp(0.9em, 2.2vw, 1.1em);
             font-style: italic;
             color: #aaaaaa;
+            margin-top: 0;
+            margin-bottom: 0; /* Kein unterer Margin, um die Höhe minimal zu halten */
             overflow-wrap: break-word;
             word-wrap: break-word;
         }
-        #reload-button {
-            margin-top: 15px;
-            padding: 8px 15px;
-            font-size: clamp(0.8em, 2vw, 1em);
+        #reload-icon {
+            position: absolute; /* Positioniert das Icon relativ zum body */
+            bottom: 8px;      /* Abstand vom unteren Rand */
+            right: 8px;       /* Abstand vom rechten Rand */
+            font-size: 1.6em; /* Größe des Icons */
             color: #aaaaaa;
-            background-color: transparent;
-            border: 1px solid #aaaaaa;
-            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
+            transition: color 0.2s;
+            z-index: 10;      /* Stellt sicher, dass das Icon über dem Text liegt, falls es überlappt */
+            line-height: 1;   /* Verhindert zusätzlichen vertikalen Platz durch das Icon selbst */
+            padding: 2px;     /* Erhöht leicht den klickbaren Bereich */
         }
-        #reload-button:hover {
-            background-color: rgba(204, 204, 204, 0.1);
+        #reload-icon:hover {
             color: #cccccc;
         }
     </style>
@@ -69,8 +73,9 @@
     <div id="quote-container">
         <p id="quote-text"></p>
         <p id="quote-author"></p>
-        <button id="reload-button" onclick="displayQuote()">Nächstes Zitat</button>
     </div>
+    <!-- Das Reload-Icon ist jetzt ein einfaches div mit einem Unicode-Symbol -->
+    <div id="reload-icon" onclick="displayQuote()">↻</div> <!-- Unicode für ein Reload-Symbol (Pfeil im Kreis) -->
 
     <script>
         const myQuotes = [
