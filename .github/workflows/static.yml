@@ -1,43 +1,118 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Zitate</title>
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            height: auto; /* Erlaubt dem HTML-Element, sich an den Inhalt anzupassen */
+            overflow: hidden; /* Verhindert Scrollbalken auf dem html-Element */
+            box-sizing: border-box;
+            background-color: transparent; /* Stellt sicher, dass auch der HTML-Hintergrund transparent ist */
+        }
+        *, *::before, *::after { /* Sorgt für ein konsistentes Box-Modell für alle Elemente */
+            box-sizing: inherit;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 0; /* Kein Padding direkt am Body, um die Höhe minimal zu halten */
+            height: auto; /* Erlaubt dem Body, sich an den Inhalt anzupassen */
+            text-align: center; /* Zentriert den quote-container, den Text darin UND den reload-icon */
+            background-color: transparent;
+            overflow: hidden; /* Verhindert Scrollbalken auf dem Body-Element */
+            /* position: relative; /* Nicht mehr unbedingt notwendig, da Icon nicht mehr absolut positioniert ist */
+        }
+        #quote-container {
+            padding: 15px; /* Innenabstand für den Text, definiert die Widget-Ränder */
+            /* padding-bottom: 15px; /* Kann bleiben oder angepasst werden */
+            border-radius: 10px;
+            background-color: transparent;
+            max-width: 100%;
+            /* Höhe wird automatisch durch Inhalt bestimmt und sollte minimal sein */
+            margin-bottom: -5px; /* Abstand zum Reload-Icon */
+        }
+        #quote-text {
+            font-size: clamp(1.1em, 2.8vw, 1.4em);
+            margin-top: 0; /* Kein oberer Margin */
+            margin-bottom: 8px; /* Kleiner Abstand zum Autor */
+            color: #cccccc;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+        #quote-author {
+            font-size: clamp(0.9em, 2.2vw, 1.1em);
+            font-style: italic;
+            color: #aaaaaa;
+            margin-top: 0;
+            margin-bottom: 0; /* Kein unterer Margin, um die Höhe minimal zu halten */
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+        #reload-icon {
+            /* position: absolute; entfernt für normale Positionierung im Fluss */
+            /* bottom: 8px; entfernt */
+            /* right: 8px; entfernt */
+            font-size: 1em; /* Deutlich kleiner, vorher 1.6em */
+            color: #aaaaaa;
+            cursor: pointer;
+            transition: color 0.2s;
+            /* z-index: 10; entfernt, nicht mehr nötig */
+            line-height: 1;
+            padding: 2px;
+            margin-top: 0px;
+            /* margin-top: 10px; /* Optional: Abstand nach oben, alternativ margin-bottom am quote-container */
+            /* Da body text-align: center hat und das Icon ein div (Block-Element) ist, wird es zentriert. */
+            /* display: inline-block; /* Könnte verwendet werden, wenn es kein div wäre, aber für div nicht nötig für Zentrierung via text-align des Parents */
+        }
+        #reload-icon:hover {
+            color: #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="quote-container">
+        <p id="quote-text"></p>
+        <p id="quote-author"></p>
+    </div>
+    <!-- Das Reload-Icon ist jetzt ein einfaches div mit einem Unicode-Symbol -->
+    <!-- Es wird durch text-align: center im body zentriert -->
+    <div id="reload-icon" onclick="displayQuote()">↻</div> <!-- Unicode für ein Reload-Symbol (Pfeil im Kreis) -->
 
-on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
+    <script>
+        const myQuotes = [
+            { text: "Der Weg ist das Ziel.", author: "Konfuzius" },
+            { text: "Sei du selbst die Veränderung, die du dir wünschst für diese Welt.", author: "Mahatma Gandhi" },
+            { text: "Jede Herausforderung ist eine Lektion und eine Chance für Wachstum; ich lerne und verbessere mich täglich.", author: "Secret VIP"},
+            { text: "Ich bin der bewusste Gestalter meiner Realität und meiner Reaktionen.", author: "Secret VIP"},
+            { text: "Ich bin dankbar für das, was ich habe, und diese Dankbarkeit zieht noch mehr Fülle in mein Leben.", author: "Secret VIP"},
+            { text: "Ich handle mutig trotz Angst, angetrieben von meiner klaren Vision und meinem tiefen Sinn.", author: "Secret VIP"},
+            { text: "Ich fokussiere meine Energie auf die entscheidenden Aufgaben, die mich meinen Zielen am schnellsten und effektivsten näherbringen.", author: "Secret VIP"},
+            // HIER IHRE EIGENEN ZITATE HINZUFÜGEN:
+            // { text: "Ihr Zitat hier.", author: "Ihr Name oder Quelle" },
+        ];
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+        function getRandomQuote() {
+            if (myQuotes.length === 0) {
+                return { text: "Bitte fügen Sie Zitate zur Liste hinzu.", author: "" };
+            }
+            const randomIndex = Math.floor(Math.random() * myQuotes.length);
+            return myQuotes[randomIndex];
+        }
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
-jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        function displayQuote() {
+            const quote = getRandomQuote();
+            document.getElementById('quote-text').textContent = quote.text;
+            if (quote.author) {
+                document.getElementById('quote-author').textContent = "- " + quote.author;
+            } else {
+                document.getElementById('quote-author').textContent = "";
+            }
+        }
+        window.onload = displayQuote;
+    </script>
+</body>
+</html>
